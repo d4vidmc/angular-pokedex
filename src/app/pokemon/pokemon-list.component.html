@@ -1,0 +1,8 @@
+<div>
+    <div class="pokemons">
+        <div *ngFor="let pokemon of pokemons" class="pokemon">
+            <img [src]="getImageUrl(pokemon)" [alt]="pokemon.name">
+            <p>{{pokemon.name | titlecase }}</p>
+        </div>
+    </div>
+</div>
