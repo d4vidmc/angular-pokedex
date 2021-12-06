@@ -1,8 +1,38 @@
 <div>
-    <div class="pokemons">
-        <div *ngFor="let pokemon of pokemons" class="pokemon">
-            <img [src]="getImageUrl(pokemon)" [alt]="pokemon.name">
-            <p>{{pokemon.name | titlecase }}</p>
-        </div>
+  <div>
+    <div>
+      <span>Search:</span>
+      <input
+        type="text"
+        [(ngModel)]="search"
+        (ngModelChange)="searchPokemons()"
+      />
     </div>
+    <div>
+      <span>Pick a Pokemon Generation:</span>
+      <select
+        [ngModel]="generationSelected"
+        (ngModelChange)="onGenerationChange($event)"
+      >
+        <option *ngFor="let generation of generations" [value]="generation.url">
+          {{ generation.name }}
+        </option>
+      </select>
+    </div>
+    <button *ngIf="pokemons.length" (click)="nextPokemons(10)">
+      Next 10 Pokemons
+    </button>
+  </div>
+  <div class="pokemons">
+    <div
+      class="pokemon"
+      [ngStyle]="{ 'background-color': getPokemonColor(pokemon) }"
+      *ngFor="let pokemon of pokemons"
+    >
+      <img [src]="getImageUri(pokemon)" [alt]="pokemon.name" />
+      <p [ngStyle]="{ color: getTextColor(pokemon) }">{{ pokemon.name }}</p>
+    </div>
+  </div>
+
+  <not-found *ngIf="!pokemons.length"></not-found>
 </div>

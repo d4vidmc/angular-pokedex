@@ -1,18 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
 
-import { AppComponent } from './app.component';
-import { PokemonListComponent } from './pokemon/pokemon-list.component';
+import { AppComponent } from "./app.component";
+import { PokemonModule } from "./pokemon/pokemon.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PokemonListComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
+  declarations: [AppComponent],
+  imports: [PokemonModule],
   providers: [],
-  bootstrap: [AppComponent, PokemonListComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
