@@ -1,1 +1,55 @@
-<p>TODO: pokemon detail</p> 
+<button (click)="goBack()">Go Back</button>
+<div class="pokemon-container">
+  <img [src]="getImageUri()" alt="pokemon" />
+  <div>
+    <p>Name: {{ pokemonDetail?.name }}</p>
+    <p>Height: {{ pokemonDetail?.height }}</p>
+    <p>Weight: {{ pokemonDetail?.weight }}</p>
+    <p>Base Experience: {{ pokemonDetail?.base_experience }}</p>
+    <div class="pokemon-type">
+      <p>Type:</p>
+      <div
+        class="type-color"
+        *ngFor="let type of pokemonDetail?.types"
+        [ngStyle]="{ 'background-color': getColorByType(type.type.name) }"
+      >
+        <p>{{ type.type.name }}</p>
+      </div>
+    </div>
+    <div class="pokemon-ability">
+      <p>Abilities:</p>
+      <div
+        class="ability-color"
+        *ngFor="let ability of pokemonDetail?.abilities"
+      >
+        <p>{{ ability.ability.name }}</p>
+      </div>
+    </div>
+    <div class="pokemon-stats">
+      <p>Stats:</p>
+      <div class="stat-color" *ngFor="let stat of pokemonDetail?.stats">
+        <div class="stat-bar-remain" [ngStyle]="{ height: 100 - stat.base_stat +'%' }"></div>
+        <div class="stat-bar" [ngStyle]="{ height: stat.base_stat +'%' }">{{ stat.base_stat }}</div>
+        <p [ngStyle]="{ color: getStatEffortColor(stat.effort) }">{{ stat.stat.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <span>Enter Language: </span>
+  <input
+    type="text"
+    [(ngModel)]="language"
+    (ngModelChange)="refreshDescriptions()"
+  />
+</div>
+
+<div *ngIf="!!pokemonSpecies">
+  <h1>Pokemon Species</h1>
+  <p>Pokemon Name by Language: {{ getNameByLanguage(pokemonSpecies?.names) }}</p>
+  <p>Pokemon Color: {{ pokemonSpecies.color.name }}</p>
+  <div class="game-description" *ngFor="let description of gameDescriptions">
+    <img [src]="getGameImage(description.version.name)" alt="" />
+    <p>{{ description.flavor_text }}</p>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { pokemonColorMap } from "./pokemonColorHash";
 import { Generation, Pokemon } from "../utils/types";
 import { PokemonService } from "./pokemon.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "pokemon-list",
@@ -17,7 +18,7 @@ export class PokemonListComponent implements OnInit {
   offset: number = 0;
   limit: number = 10;
   generationSelected = "";
-  constructor(private pokemonService: PokemonService) {}
+  constructor(private pokemonService: PokemonService, private router: Router) {}
 
   ngOnInit(): void {
     this.getPokemons();
@@ -34,6 +35,7 @@ export class PokemonListComponent implements OnInit {
         this.orderPokemonByName();
       });
   }
+
   getGenerations() {
     this.pokemonService
       .getPokemonGeneration()
@@ -41,6 +43,7 @@ export class PokemonListComponent implements OnInit {
         (data: { results: Generation[] }) => (this.generations = data.results)
       );
   }
+
   getPokemonsByGeneration(url: string) {
     this.pokemonService
       .getPokemonsByGeneration(url)
@@ -78,6 +81,7 @@ export class PokemonListComponent implements OnInit {
         return "white";
     }
   }
+
   nextPokemons(pageItems: number): void {
     this.offset += pageItems;
     this.getPokemons();
@@ -101,8 +105,14 @@ export class PokemonListComponent implements OnInit {
       return 0;
     });
   }
+
   onGenerationChange(generationUrl: string) {
     this.generationSelected = generationUrl;
     this.getPokemonsByGeneration(generationUrl);
+  }
+
+  goToPokemonDetails(pokemon: Pokemon) {
+    const id = this.getPokemonIdFromUrl(pokemon.url);
+    this.router.navigate([`/pokedex/${id}`]);
   }
 }

@@ -1,0 +1,73 @@
+@import "../../app.component.less";
+
+.pokemon-container {
+  display: flex;
+  background-color: rgb(219, 226, 233);
+  .pokemon-type {
+    display: flex;
+    margin: 10px;
+    .type-color {
+      flex: 0;
+      border-radius: 8%;
+      padding: 0px 15px 0px 15px;
+      margin: 0px 10px 0px 10px;
+      p {
+        color: white;
+        text-align: center;
+      }
+    }
+  }
+  .pokemon-ability {
+    display: flex;
+    margin: 10px;
+    .ability-color {
+      flex: 1;
+      border-radius: 8%;
+      padding: 0px 15px 0px 15px;
+      margin: 0px 10px 0px 10px;
+      background-color:rgb(93, 153, 113);
+      p {
+        color: white;
+        text-align: center;
+      }
+    }
+  }
+  .pokemon-stats {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 100px;
+    .stat-color {
+        height: 100px;
+        padding: 0px 5px 0px 5px;
+        margin: 0px 5px 0px 5px;
+        p {
+          width: 100px;
+          text-align: center;
+        }
+      }
+    .stat-bar-remain{
+      background-color: rgb(197, 197, 197);
+      width: 100%;
+    }
+    .stat-bar {
+      background-color: rgb(127, 180, 145);
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+    .stat-bar:hover {
+      background-color: rgb(93, 153, 113);
+    }
+  }
+}
+
+.game-description {
+  display: flex;
+  flex: 1;
+  background-color: rgb(219, 226, 233);
+  img {
+    height: 180px;
+    width: auto;
+    margin: 15px;
+  }
+}

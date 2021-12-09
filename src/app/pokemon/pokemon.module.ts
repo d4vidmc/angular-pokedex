@@ -6,6 +6,7 @@ import { NotFoundComponent } from "../../common/not-found.component";
 import { PokemonDetailComponent } from "./profile/pokemon-detail.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ScrollingModule } from "@angular/cdk/scrolling";
+import { PokemonRoutingModule } from "./pokemon-routing.module";
 @NgModule({
   declarations: [
     PokemonListComponent,
@@ -13,7 +14,12 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
     PokemonDetailComponent,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, ScrollingModule],
-  exports: [PokemonListComponent, PokemonDetailComponent],
+  exports: [
+    PokemonListComponent,
+    PokemonDetailComponent,
+    PokemonDetailComponent,
+    PokemonRoutingModule,
+  ],
   providers: [],
   bootstrap: [],
 })
