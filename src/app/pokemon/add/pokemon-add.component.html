@@ -1,0 +1,86 @@
+<div class="mat-drawer-container">
+<button mat-raised-button color="primary" (click)="goBack()">Go Back</button>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <h2>Basic Information</h2>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label for="name">Name</mat-label>
+        <input matInput type="text" id="name" formControlName="pokemonName" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label for="description">Description</mat-label>
+        <input
+          matInput
+          type="text"
+          id="description"
+          formControlName="pokemonDescription"
+        />
+      </mat-form-field>
+    </div>
+
+    <div formGroupName="address">
+      <h2>Address</h2>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label for="street">Street</mat-label>
+          <input matInput type="text" id="street" formControlName="street" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label for="city">City</mat-label>
+          <input matInput type="text" id="city" formControlName="city" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label for="state">State</mat-label>
+          <input matInput type="text" id="state" formControlName="state" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label for="zip">Zip</mat-label>
+          <input matInput type="text" id="zip" formControlName="zip" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div formArrayName="types">
+      <h2>Types</h2>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addType()"
+      >
+        + Add Another Type
+      </button>
+
+      <div *ngFor="let type of types.controls; let i = index">
+        <mat-form-field appearance="fill">
+          <mat-label for="type">Type</mat-label>
+          <input
+            matInput
+            type="text"
+            id="types-{{ i }}"
+            [formControlName]="i"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <p>Complete Form</p>
+    <button
+      mat-raised-button
+      type="submit"
+      color="accent"
+      [disabled]="!profileForm.valid"
+    >
+      Submit
+    </button>
+  </form>
+
+  <p>Form Status: {{ profileForm.status }}</p>
+</div>

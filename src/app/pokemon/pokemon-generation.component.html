@@ -1,0 +1,11 @@
+<div>
+    <mat-form-field appearance="fill">
+        <mat-label>Select Generation</mat-label>
+        <mat-select [(ngModel)]="selectedGame"
+        (selectionChange)="chooseGame()">
+            <mat-option [value]="game.url" *ngFor="let game of games">
+            {{game.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>

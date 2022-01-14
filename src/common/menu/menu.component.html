@@ -1,0 +1,13 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" arial-label="Change Theme">
+  <mat-icon>palette</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let option of options"
+    (click)="selectTheme(option.value)"
+  >
+    <span>{{ option.label }}</span>
+  </button>
+</mat-menu>

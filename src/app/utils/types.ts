@@ -47,7 +47,7 @@ export type PokemonDetail = {
   species: { name: string; url: string };
 };
 
-export type pokemonSpecies = {
+export type PokemonSpecies = {
   base_happiness: number;
   capture_rate: number;
   color: {
@@ -130,4 +130,46 @@ export type pokemonSpecies = {
       url: string;
     };
   }[];
+};
+
+export type Option = {
+  label: string;
+  value: string;
+};
+
+export type Chain = {
+  id: number;
+  chain: {
+    evolves_to: EvolvesTo[];
+    evolution_details: EvolutionDetails[] | null;
+  };
+};
+export type EvolvesTo = {
+  evolution_details?: EvolutionDetails[] | null;
+  evolves_to?: EvolvesTo[] | null;
+  species: { name: string; url: string };
+};
+
+export type EvolutionDetails = {
+  gender?: null;
+  held_item?: null;
+  item?: null;
+  known_move?: null;
+  known_move_type?: null;
+  location?: null;
+  min_affection?: null;
+  min_beauty?: null;
+  min_happiness?: null;
+  min_level: number;
+  needs_overworld_rain: boolean;
+  party_species?: null;
+  party_type?: null;
+  relative_physical_stats?: null;
+  time_of_day: string;
+  trade_species?: null;
+  trigger: {
+    name: string;
+    url: string;
+  };
+  turn_upside_down: boolean;
 };

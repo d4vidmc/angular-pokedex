@@ -1,39 +1,40 @@
-<div>
-  <div>
-    <div>
-      <span>Search:</span>
-      <input
-        type="text"
-        [(ngModel)]="search"
-        (ngModelChange)="searchPokemons()"
-      />
-    </div>
-    <div>
-      <span>Pick a Pokemon Generation:</span>
-      <select
-        [ngModel]="generationSelected"
-        (ngModelChange)="onGenerationChange($event)"
-      >
-        <option *ngFor="let generation of generations" [value]="generation.url">
-          {{ generation.name }}
-        </option>
-      </select>
-    </div>
-    <button *ngIf="pokemons.length" (click)="nextPokemons(10)">
-      Next 10 Pokemons
-    </button>
-  </div>
-  <div class="pokemons">
-    <div
-      class="pokemon"
-      [ngStyle]="{ 'background-color': getPokemonColor(pokemon) }"
-      *ngFor="let pokemon of pokemons"
-      (click)="goToPokemonDetails(pokemon)"
-    >
-      <img [src]="getImageUri(pokemon)" [alt]="pokemon.name" />
-      <p [ngStyle]="{ color: getTextColor(pokemon) }">{{ pokemon.name }}</p>
-    </div>
-  </div>
+<div class="mat-drawer-container">
+	<div>
+		<div class="element-header">
+			<mat-form-field appearance="fill" >
+				<mat-label>Search</mat-label>
+				<input matInput #input placeholder="Pokemon Start with..." [(ngModel)]="search"
+				(ngModelChange)="searchPokemons()">
+			</mat-form-field>
+			<pokemon-generation
+				(refreshPokemons)="displayByGeneration($event)">
+			</pokemon-generation>			
+		</div>
+		
+		<div>
+			<mat-form-field appearance="fill">
+				<mat-label>Offset</mat-label>
+				<input matInput #input type="number" placeholder="0" min="0"
+				[(ngModel)]="offset" (ngModelChange)="updatePokemonLimit()">
+			</mat-form-field>
 
-  <not-found *ngIf="!pokemons.length"></not-found>
+			<mat-form-field appearance="fill">
+				<mat-label>Limit</mat-label>
+				<input matInput #input type="number" placeholder="1" min="1"
+				[(ngModel)]="limit"
+				(ngModelChange)="updatePokemonLimit()">
+			</mat-form-field>
+			
+			<button mat-raised-button color="primary" (click)="addPokemon()">
+				Add Pokemon
+			</button>
+		</div>
+	</div>
+	<cdk-virtual-scroll-viewport #scroller itemSize="20" class="virtual-content">
+		<div class="pokemons">
+			<pokemon-card *cdkVirtualFor="let pokemon of pokemons" [pokemon]=pokemon class="example-item"></pokemon-card>
+		</div>
+	</cdk-virtual-scroll-viewport>
+	
+	<not-found *ngIf="!pokemons.length"></not-found>	
 </div>

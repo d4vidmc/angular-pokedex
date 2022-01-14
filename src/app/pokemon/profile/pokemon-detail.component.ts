@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Location } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { PokemonDetail, pokemonSpecies } from "src/app/utils/types";
+import { PokemonDetail, PokemonSpecies } from "src/app/utils/types";
 import { PokemonService } from "../pokemon.service";
 import { pokemonTypeColorMap } from "../pokemonColorHash";
 import { pokemonImageHash } from "../pokemonGameImgHash";
+import { getPokemonIdFromUrl } from "../pokemon-helper";
 
 @Component({
   selector: "pokemon-detail",
@@ -15,16 +15,18 @@ import { pokemonImageHash } from "../pokemonGameImgHash";
 export class PokemonDetailComponent implements OnInit, OnDestroy {
   id: string = "1";
   pokemonDetail?: PokemonDetail;
-  pokemonSpecies?: pokemonSpecies;
+  pokemonSpecies?: PokemonSpecies;
+  pokemonChain?: any;
   gameDescriptions?: any;
   language: string = "en";
   pokemonSpeciesSubscription?: Subscription;
   pokemonDetailSubscription?: Subscription;
+  pokemonChainSubscription?: Subscription;
   // without a constructor, it doesn't build (blank page)
   constructor(
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
-    private location: Location
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +35,6 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
       .getPokemon(this.id)
       .subscribe((pokemonDetail) => {
         this.pokemonDetail = pokemonDetail;
-        console.log(pokemonDetail);
       });
 
     this.pokemonSpeciesSubscription = this.pokemonService
@@ -42,7 +43,13 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
         this.pokemonSpecies = pokemonSpecies;
         this.gameDescriptions =
           this.filterDescriptionByLanguage(pokemonSpecies);
+          this.pokemonChainSubscription = this.pokemonService
+            .getPokemonChain(this.pokemonSpecies.evolution_chain.url)
+            .subscribe((pokemonChain) => {
+              this.pokemonChain = pokemonChain;
+            });
       });
+
   }
   ngOnDestroy() {
     this.pokemonDetailSubscription?.unsubscribe();
@@ -79,11 +86,25 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
     // id should be integer
     return this.pokemonService.getPokemonImageUri(+this.id);
   }
-  goBack() {
-    this.location.back();
+  goHome() {
+    this.router.navigate(["pokedex"]);
   }
 
   getStatEffortColor(effortNumber: number): string {
-    return effortNumber? "rgb(93, 153, 113)" : "rgb(100, 100, 100)";
+    return effortNumber ? "rgb(93, 153, 113)" : "inherit";
+  }
+
+  getImageUriById(url: string) {
+    let id = 1;
+    if (url != undefined) id = Number(url.slice(0, -1).split("/").pop());
+    return this.pokemonService.getPokemonImageUri(id);
+  }
+
+  goToPokemonDetails(pokemonDetail: any) {
+    console.log(pokemonDetail);
+    const id = getPokemonIdFromUrl(pokemonDetail.url);
+    this.router
+      .navigateByUrl("/", { skipLocationChange: true })
+      .then(() => this.router.navigate([`./pokedex/${id}/`]));
   }
 }
